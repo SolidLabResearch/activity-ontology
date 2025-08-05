@@ -1,0 +1,1049 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix activo: <https://solidlabresearch.github.io/activity-ontology#>.
+
+<https://solidlabresearch.github.io/activity-ontology#> a owl:Ontology;
+  rdfs:label "Sports Activity Ontology";
+  rdfs:comment "An ontology for modeling sports activities, performance metrics, and athlete data";
+  owl:versionInfo "0.1";
+  owl:imports <http://www.w3.org/ns/prov#>,
+              <http://xmlns.com/foaf/0.1/>;
+  rdfs:seeAlso <https://github.com/SolidLabResearch/activity-ontology>;
+  rdfs:seeAlso <https://github.com/SolidLabResearch/elevate>.
+
+# Provenance Integration Comment
+# This ontology uses PROV-O (W3C Provenance Ontology) for modeling:
+# - Device/source tracking (prov:wasGeneratedBy)
+# - Data transformation processes (prov:wasDerivedFrom)
+# - Attribution (prov:wasAttributedTo)
+# Activities are modeled as prov:Entity instances for full provenance support.
+activo:Activity a owl:Class;
+  rdfs:label "Activity";
+  rdfs:comment "A model for defining an activity in sports";
+  rdfs:subClassOf prov:Entity.
+
+# Activity types --------------------
+
+activo:Ride a owl:Class;
+  rdfs:label "Ride";
+  rdfs:comment "A model for defining a ride activity";
+  rdfs:subClassOf activo:Activity.
+
+activo:Run a owl:Class;
+  rdfs:label "Run";
+  rdfs:comment "A model for defining a run activity";
+  rdfs:subClassOf activo:Activity.
+
+activo:Swim a owl:Class;
+  rdfs:label "Swim";
+  rdfs:comment "A model for defining a swim activity";
+  rdfs:subClassOf activo:Activity.
+
+# Activity properties --------------------
+activo:id a owl:DatatypeProperty;
+  rdfs:label "id";
+  rdfs:comment "The unique identifier for the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:string.
+
+activo:name a owl:DatatypeProperty;
+  rdfs:label "name";
+  rdfs:comment "The name of the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:string.
+
+activo:startTime a owl:DatatypeProperty;
+  rdfs:label "startTime";
+  rdfs:comment "The start time of the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:dateTime.
+
+activo:endTime a owl:DatatypeProperty;
+  rdfs:label "endTime";
+  rdfs:comment "The end time of the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:dateTime.
+
+# alternative calculation: if EXISTS activo:PowerStats
+activo:hasPowerData a owl:DatatypeProperty;
+  rdfs:label "hasPowerData";
+  rdfs:comment "Indicates that the activity has power data associated with it";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:isTrainer a owl:DatatypeProperty;
+  rdfs:label "isTrainer";
+  rdfs:comment "Indicates whether the activity was performed on a trainer";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:isCommute a owl:DatatypeProperty;
+  rdfs:label "isCommute";
+  rdfs:comment "Indicates whether the activity is a commute";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:hasSourceStats a owl:ObjectProperty;
+  rdfs:label "hasSourceStats";
+  rdfs:comment "Statistics that are supplied from the source (the device that recorded the activity)";
+  rdfs:domain activo:Activity;
+  rdfs:range activo:Stats.
+
+activo:hasStats a owl:ObjectProperty;
+  rdfs:label "hasStats";
+  rdfs:comment "The statistics associated with the lap";
+  rdfs:domain activo:Lap, activo:Activity;
+  rdfs:range activo:Stats.
+
+activo:hasLap a owl:ObjectProperty;
+  rdfs:label "hasLap";
+  rdfs:comment "Indicates that the activity has a lap associated with it";
+  rdfs:domain activo:Activity;
+  rdfs:range activo:Lap.
+
+activo:isSwimPool a owl:DatatypeProperty;
+  rdfs:label "isSwimPool";
+  rdfs:comment "Indicates whether the activity is performed in a swimming pool";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:latCenter a owl:DatatypeProperty;
+  rdfs:label "latCenter";
+  rdfs:comment "The latitude center of the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:float.
+
+activo:lonCenter a owl:DatatypeProperty;
+  rdfs:label "lonCenter";
+  rdfs:comment "The longitude center of the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:float.
+
+activo:hash a owl:DatatypeProperty;
+  rdfs:label "hash";
+  rdfs:comment "A hash of the activity, used for deduplication";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:string.
+
+# alternative calculation: EXISTS activo:hasAthletePerformance
+activo:isWithoutAthletePerformance a owl:DatatypeProperty;
+  rdfs:label "isWithoutAthletePerformance";
+  rdfs:comment "Indicates whether the activity does not have an athlete performance snapshot";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:notes a owl:DatatypeProperty;
+  rdfs:label "notes";
+  rdfs:comment "Notes or comments about the activity";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:string.
+
+activo:isTypeAutoDetected a owl:DatatypeProperty;
+  rdfs:label "isTypeAutoDetected";
+  rdfs:comment "Indicates whether the activity type was automatically detected";
+  rdfs:domain activo:Activity;
+  rdfs:range xsd:boolean.
+
+activo:hasFlag a owl:ObjectProperty;
+  rdfs:label "hasFlag";
+  rdfs:comment "Indicates that the activity has a flag associated with it";
+  rdfs:domain activo:Activity;
+  rdfs:range activo:Flag.
+
+# Device and Provenance Model --------------------
+# Using PROV-O for device/source tracking
+activo:Device a owl:Class;
+  rdfs:label "Device";
+  rdfs:comment "A sports tracking device or data source";
+  rdfs:subClassOf prov:Agent.
+
+activo:PowerMeter a owl:Class;
+  rdfs:label "Power Meter";
+  rdfs:comment "A device that measures power output";
+  rdfs:subClassOf activo:Device.
+
+activo:HeartRateMonitor a owl:Class;
+  rdfs:label "Heart Rate Monitor";
+  rdfs:comment "A device that measures heart rate";
+  rdfs:subClassOf activo:Device.
+
+# PROV-O Integration Examples:
+# Activities can use: prov:wasGeneratedBy activo:Device
+# Stats can use: prov:wasDerivedFrom (for calculated metrics)
+# Use prov:wasAttributedTo for athlete attribution
+
+# Athlete Model --------------------
+activo:Athlete a owl:Class;
+  rdfs:label "Athlete";
+  rdfs:comment "A model for defining an athlete in sports";
+  rdfs:subClassOf foaf:Person.
+
+activo:PerformanceSnapshot a owl:Class;
+  rdfs:label "Athlete Performance Snapshot";
+  rdfs:comment "A snapshot of an athlete's performance at a specific time".
+
+activo:hasPerformanceSnapshot a owl:ObjectProperty;
+  rdfs:label "hasPerformanceSnapshot";
+  rdfs:comment "Indicates a performance snapshot of an athlete or activity";
+  rdfs:domain activo:Athlete, activo:Activity;
+  rdfs:range activo:PerformanceSnapshot.
+
+activo:hasAthlete a owl:ObjectProperty;
+  rdfs:label "hasAthlete";
+  rdfs:comment "Indicates the athlete of a performance snapshot or activity";
+  rdfs:domain activo:PerformanceSnapshot, activo:Activity;
+  rdfs:range activo:Athlete.
+
+activo:from a owl:DatatypeProperty;
+  rdfs:label "from";
+  rdfs:comment "The start time of the performance snapshot";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:dateTime.
+
+activo:maxHeartRate a owl:DatatypeProperty;
+  rdfs:label "maxHeartRate";
+  rdfs:comment "The maximum heart rate of the athlete (bpm)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:restHeartRate a owl:DatatypeProperty;
+  rdfs:label "restHeartRate";
+  rdfs:comment "The resting heart rate of the athlete (bpm)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:cyclingLactateThreshold a owl:DatatypeProperty;
+  rdfs:label "cyclingLactateThreshold";
+  rdfs:comment "The lactate threshold for cycling (bpm)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:runningLactateThreshold a owl:DatatypeProperty;
+  rdfs:label "runningLactateThreshold";
+  rdfs:comment "The lactate threshold for running (bpm)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:defaultLactateThreshold a owl:DatatypeProperty;
+  rdfs:label "defaultLactateThreshold";
+  rdfs:comment "The default lactate threshold for the athlete (bpm)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:cyclingFunctionalThresholdPower a owl:DatatypeProperty;
+  rdfs:label "cyclingFunctionalThresholdPower";
+  rdfs:comment "The functional threshold power for cycling (watts)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:runningFunctionalThresholdPower a owl:DatatypeProperty;
+  rdfs:label "runningFunctionalThresholdPower";
+  rdfs:comment "The functional threshold power for running (watts)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:swimmingFunctionalThresholdPower a owl:DatatypeProperty;
+  rdfs:label "swimmingFunctionalThresholdPower";
+  rdfs:comment "The functional threshold power for swimming (watts)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:int.
+
+activo:weight a owl:DatatypeProperty;
+  rdfs:label "weight";
+  rdfs:comment "The weight of the athlete (kilograms)";
+  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:range xsd:float.
+
+# Lap Model --------------------
+activo:Lap a owl:Class;
+  rdfs:label "Lap";
+  rdfs:comment "A model for defining a lap in an activity".
+
+activo:lapIndex a owl:DatatypeProperty;
+  rdfs:label "lapIndex";
+  rdfs:comment "The index of the lap in the activity";
+  rdfs:domain activo:Lap;
+  rdfs:range xsd:int.
+
+activo:isActive a owl:DatatypeProperty;
+  rdfs:label "isActive";
+  rdfs:comment "Indicates whether a lap represents an active exercise period (true) or a rest/pause period (false).";
+  rdfs:domain activo:Lap;
+  rdfs:range xsd:boolean.
+
+activo:isLapOf a owl:ObjectProperty;
+  rdfs:label "isLapOf";
+  rdfs:comment "Indicates the activity a lap belongs to";
+  rdfs:domain activo:Lap;
+  rdfs:range activo:Activity.
+
+activo:lapStart a owl:DatatypeProperty;
+  rdfs:label "lapStart";
+  rdfs:comment "The start of the lap from the beginning of the activity (s)";
+  rdfs:domain activo:Lap;
+  rdfs:range xsd:int.
+
+activo:lapEnd a owl:DatatypeProperty;
+  rdfs:label "lapEnd";
+  rdfs:comment "The end of the lap from the beginning of the activity (s)";
+  rdfs:domain activo:Lap;
+  rdfs:range xsd:int.
+
+# Activity Stats Model --------------------
+activo:Stats a owl:Class;
+  rdfs:label "Stats";
+  rdfs:comment "Statistics about an activity".
+
+activo:distance a owl:DatatypeProperty;
+  rdfs:label "distance";
+  rdfs:comment "The total distance of the activity (meters)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+activo:elapsedTime a owl:DatatypeProperty;
+  rdfs:label "elapsedTime";
+  rdfs:comment "The total elapsed time of the activity (seconds)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+activo:movingTime a owl:DatatypeProperty;
+  rdfs:label "movingTime";
+  rdfs:comment "The total moving time of the activity (seconds)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:elapsedTime - activo:movingTime
+activo:pauseTime a owl:DatatypeProperty;
+  rdfs:label "pauseTime";
+  rdfs:comment "The total pause time of the activity (seconds)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:movingTime / activo:elapsedTime
+activo:moveRatio a owl:DatatypeProperty;
+  rdfs:label "moveRatio";
+  rdfs:comment "The ratio of moving time to elapsed time";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+activo:calories a owl:DatatypeProperty;
+  rdfs:label "calories";
+  rdfs:comment "The total calories burned during the activity (kcal)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:calories / (activo:movingTime / 3600)
+activo:caloriesPerHour a owl:DatatypeProperty;
+  rdfs:label "caloriesPerHour";
+  rdfs:comment "The average calories burned per hour during the activity (kcal/h)";
+  rdfs:domain activo:Stats;
+  rdfs:range xsd:float.
+
+activo:hasScores a owl:ObjectProperty;
+  rdfs:label "hasScores";
+  rdfs:comment "The scores associated with the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:Scores.
+
+activo:hasSpeedStats a owl:ObjectProperty;
+  rdfs:label "hasSpeedStats";
+  rdfs:comment "The speed statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:SpeedStats.
+
+activo:hasPaceStats a owl:ObjectProperty;
+  rdfs:label "hasPaceStats";
+  rdfs:comment "The pace statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:PaceStats.
+
+activo:hasPowerStats a owl:ObjectProperty;
+  rdfs:label "hasPowerStats";
+  rdfs:comment "The power statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:PowerStats.
+
+activo:hasHeartRateStats a owl:ObjectProperty;
+  rdfs:label "hasHeartRateStats";
+  rdfs:comment "The heart rate statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:HeartRateStats.
+
+activo:hasCadenceStats a owl:ObjectProperty;
+  rdfs:label "hasCadenceStats";
+  rdfs:comment "The cadence statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:CadenceStats.
+
+activo:hasGradeStats a owl:ObjectProperty;
+  rdfs:label "hasGradeStats";
+  rdfs:comment "The grade statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:GradeStats.
+
+activo:hasElevationStats a owl:ObjectProperty;
+  rdfs:label "hasElevationStats";
+  rdfs:comment "The elevation statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:ElevationStats.
+
+activo:hasDynamicsStats a owl:ObjectProperty;
+  rdfs:label "hasDynamicsStats";
+  rdfs:comment "The dynamics statistics of the activity";
+  rdfs:domain activo:Stats;
+  rdfs:range activo:DynamicsStats.
+
+# Scores Model -------------
+activo:Scores a owl:Class;
+  rdfs:label "Scores";
+  rdfs:comment "A model for defining scores associated with an activity".
+
+activo:heartRateStressScore a owl:DatatypeProperty;
+  rdfs:label "heartRateStressScore";
+  rdfs:comment "The heart rate stress score of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:heartRateStressScore / activo:movingTime) * 3600
+activo:heartRateStressScorePerHour a owl:DatatypeProperty;
+  rdfs:label "heartRateStressScorePerHour";
+  rdfs:comment "The heart rate stress score per hour of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:trainingImpulse a owl:DatatypeProperty;
+  rdfs:label "trainingImpulse";
+  rdfs:comment "The training impulse of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:trainingImpulse / activo:movingTime) * 3600
+activo:trainingImpulsePerHour a owl:DatatypeProperty;
+  rdfs:label "trainingImpulsePerHour";
+  rdfs:comment "The training impulse per hour of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:runningStressScore a owl:DatatypeProperty;
+  rdfs:label "runningStressScore";
+  rdfs:comment "The running stress score of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:runningStressScore / activo:movingTime) * 3600
+activo:runningStressScorePerHour a owl:DatatypeProperty;
+  rdfs:label "runningStressScorePerHour";
+  rdfs:comment "The running stress score per hour of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:swimStressScore a owl:DatatypeProperty;
+  rdfs:label "swimStressScore";
+  rdfs:comment "The swim stress score of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:swimStressScore / activo:movingTime) * 3600
+activo:swimStressScorePerHour a owl:DatatypeProperty;
+  rdfs:label "swimStressScorePerHour";
+  rdfs:comment "The swim stress score per hour of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:powerStressScore a owl:DatatypeProperty;
+  rdfs:label "powerStressScore";
+  rdfs:comment "The power stress score of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:powerStressScore / activo:movingTime) * 3600
+activo:powerStressScorePerHour a owl:DatatypeProperty;
+  rdfs:label "powerStressScorePerHour";
+  rdfs:comment "The power stress score per hour of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:aerobicTrainingEffect a owl:DatatypeProperty;
+  rdfs:label "aerobicTrainingEffect";
+  rdfs:comment "The aerobic training effect of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:anaerobicTrainingEffect a owl:DatatypeProperty;
+  rdfs:label "anaerobicTrainingEffect";
+  rdfs:comment "The anaerobic training effect of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:powerToWeightRatio) / (activo:average heart rate)
+activo:efficiency a owl:DatatypeProperty;
+  rdfs:label "efficiency";
+  rdfs:comment "The efficiency of the activity, calculated as power to weight ratio divided by average heart rate (watts/kg/bpm)";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:averagePowerHeartRateRatio a owl:DatatypeProperty;
+  rdfs:label "averagePowerHeartRateRatio";
+  rdfs:comment "The power heart rate of the activity, calculated as average power divided by average heart rate (watts/bpm)";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:runningRating a owl:DatatypeProperty;
+  rdfs:label "runningRating";
+  rdfs:comment "The running rating of the activity";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:swolf25 a owl:DatatypeProperty;
+  rdfs:label "swolf25";
+  rdfs:comment "The Swimming Golf score for 25 meters in swimming";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+activo:swolf50 a owl:DatatypeProperty;
+  rdfs:label "swolf50";
+  rdfs:comment "The Swimming Golf score for 50 meters in swimming";
+  rdfs:domain activo:Scores;
+  rdfs:range xsd:float.
+
+# Individual stats ----------------------------
+activo:SpeedStats a owl:Class;
+  rdfs:label "Speed Stats";
+  rdfs:comment "Statistics about the speed of an activity (km/h)".
+
+activo:PaceStats a owl:Class;
+  rdfs:label "Pace Stats";
+  rdfs:comment "Statistics about the pace of an activity (min/km)".
+
+activo:PowerStats a owl:Class;
+  rdfs:label "Power Stats";
+  rdfs:comment "Statistics about the power of an activity (watts)".
+
+activo:HeartRateStats a owl:Class;
+  rdfs:label "Heart Rate Stats";
+  rdfs:comment "Statistics about the heart rate of an activity (bpm)".
+
+activo:CadenceStats a owl:Class;
+  rdfs:label "Cadence Stats";
+  rdfs:comment "Statistics about the cadence of an activity (1/min)".
+
+activo:GradeStats a owl:Class;
+  rdfs:label "Grade Stats";
+  rdfs:comment "Statistics about the grade of an activity (%)".
+
+activo:ElevationStats a owl:Class;
+  rdfs:label "Elevation Stats";
+  rdfs:comment "Statistics about the elevation of an activity (m)".
+
+activo:DynamicsStats a owl:Class;
+  rdfs:label "Dynamics Stats";
+  rdfs:comment "Statistics about the dynamics of an activity".
+
+activo:CyclingDynamicsStats a owl:Class;
+  rdfs:label "Cycling Dynamics Stats";
+  rdfs:comment "Statistics about the cycling dynamics of an activity";
+  rdfs:subClassOf activo:DynamicsStats.
+
+activo:RunningDynamicsStats a owl:Class;
+  rdfs:label "Running Dynamics Stats";
+  rdfs:comment "Statistics about the running dynamics of an activity";
+  rdfs:subClassOf activo:DynamicsStats.
+
+# Individual stats properties --------------------
+activo:average a owl:DatatypeProperty;
+  rdfs:label "average";
+  rdfs:comment "The average value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:max a owl:DatatypeProperty;
+  rdfs:label "max";
+  rdfs:comment "The maximum value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:min a owl:DatatypeProperty;
+  rdfs:label "min";
+  rdfs:comment "The minimum value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:GradeStats, activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:lowerQ a owl:DatatypeProperty;
+  rdfs:label "lowQ";
+  rdfs:comment "The lower quartile value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:upperQ a owl:DatatypeProperty;
+  rdfs:label "upperQ";
+  rdfs:comment "The upper quartile value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:median a owl:DatatypeProperty;
+  rdfs:label "median";
+  rdfs:comment "The median value of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:stdDev a owl:DatatypeProperty;
+  rdfs:label "stdDev";
+  rdfs:comment "The standard deviation of a metric (unit varies depending on the metric)";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:hasZone a owl:ObjectProperty;
+  rdfs:label "hasZone";
+  rdfs:comment "Indicates a zone for the stats";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats;
+  rdfs:range activo:Zone.
+
+activo:hasPeak a owl:ObjectProperty;
+  rdfs:label "hasPeak";
+  rdfs:comment "Indicates a peak for the stats";
+  rdfs:domain activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats;
+  rdfs:range activo:Peak.
+
+activo:gradeAdjustedAverage a owl:DatatypeProperty;
+  rdfs:label "gradeAdjustedPaceAverage";
+  rdfs:comment "The average pace adjusted for grade/elevation (min/km)";
+  rdfs:domain activo:PaceStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:average of power/activo:weight
+activo:powerToWeightRatio a owl:DatatypeProperty;
+  rdfs:label "powerToWeightRatio";
+  rdfs:comment "The average power divided by the weight of the athlete (watts/kg)";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+activo:normalizedAverage a owl:DatatypeProperty;
+  rdfs:label "normalizedPowerAverage";
+  rdfs:comment "The average normalized power (watts)";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:normalizedAverage of power/activo:weight
+activo:normalizedPowerToWeightRatio a owl:DatatypeProperty;
+  rdfs:label "normalizedPowerToWeightRatio";
+  rdfs:comment "The normalized power divided by the weight of the athlete (watts/kg)";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+activo:work a owl:DatatypeProperty;
+  rdfs:label "work";
+  rdfs:comment "The total work done in the activity (Kj)";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:normalizedAverage of power/activo:average of power
+activo:variabilityIndex a owl:DatatypeProperty;
+  rdfs:label "variabilityIndex";
+  rdfs:comment "The variability index of the power data, calculated as normalized power divided by average power";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:normalizedAverage of power/activo:functionalThresholdPower
+activo:intensityFactor a owl:DatatypeProperty;
+  rdfs:label "intensityFactor";
+  rdfs:comment "The intensity factor of the activity, calculated as normalized power divided by functional threshold power";
+  rdfs:domain activo:PowerStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:average - restHr) / (maxHr - restHr)
+activo:averageReserve a owl:DatatypeProperty;
+  rdfs:label "averageReserve";
+  rdfs:comment "The average heart rate reserve (%)";
+  rdfs:domain activo:HeartRateStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: (activo:max - restHr) / (maxHr - restHr)
+activo:maxReserve a owl:DatatypeProperty;
+  rdfs:label "maxReserve";
+  rdfs:comment "The maximum heart rate reserve (%)";
+  rdfs:domain activo:HeartRateStats;
+  rdfs:range xsd:float.
+
+activo:averageActive a owl:DatatypeProperty;
+  rdfs:label "averageActive";
+  rdfs:comment "The average active cadence (1/min)";
+  rdfs:domain activo:CadenceStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:activeTime / activo:elapsedTime
+activo:activeRatio a owl:DatatypeProperty;
+  rdfs:label "activeRatio";
+  rdfs:comment "The ratio of active cadence to total cadence";
+  rdfs:domain activo:CadenceStats;
+  rdfs:range xsd:float.
+
+activo:activeTime a owl:DatatypeProperty;
+  rdfs:label "activeTime";
+  rdfs:comment "The total active time (s)";
+  rdfs:domain activo:CadenceStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:averageActive * activo:activeTime / 60
+activo:cycles a owl:DatatypeProperty;
+  rdfs:label "cycles";
+  rdfs:comment "The total number of cycles (steps, strokes, revolutions) during the activity";
+  rdfs:domain activo:CadenceStats;
+  rdfs:range xsd:integer.
+
+# alternative calculation: activo:distance / activo:cycles / (if running 2 else 1)
+activo:distancePerCycle a owl:DatatypeProperty;
+  rdfs:label "distancePerCycle";
+  rdfs:comment "The average distance per cycle (meters)";
+  rdfs:domain activo:CadenceStats;
+  rdfs:range xsd:float.
+
+activo:hasSlopeTime a owl:ObjectProperty;
+  rdfs:label "hasSlopeTime";
+  rdfs:comment "The time spent on slope types (seconds)";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeStats.
+
+activo:hasSlopeSpeed a owl:ObjectProperty;
+  rdfs:label "hasSlopeSpeed";
+  rdfs:comment "The speed on slope types (km/h)";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeStats.
+
+activo:hasSlopePace a owl:ObjectProperty;
+  rdfs:label "hasSlopePace";
+  rdfs:comment "The pace on slope types (min/km)";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeStats.
+
+activo:hasSlopeDistance a owl:ObjectProperty;
+  rdfs:label "hasSlopeDistance";
+  rdfs:comment "The distance covered on slope types (m)";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeStats.
+
+activo:hasSlopeCadence a owl:ObjectProperty;
+  rdfs:label "hasSlopeCadence";
+  rdfs:comment "The cadence on slope types (1/min)";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeStats.
+
+activo:hasSlopeProfile a owl:ObjectProperty;
+  rdfs:label "hasSlopeProfile";
+  rdfs:comment "The slope profile of the activity";
+  rdfs:domain activo:GradeStats;
+  rdfs:range activo:SlopeProfile.
+
+activo:ascent a owl:DatatypeProperty;
+  rdfs:label "ascent";
+  rdfs:comment "The total ascent (m)";
+  rdfs:domain activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:descent a owl:DatatypeProperty;
+  rdfs:label "descent";
+  rdfs:comment "The total descent (m)";
+  rdfs:domain activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:ascentSpeed a owl:DatatypeProperty;
+  rdfs:label "ascentSpeed";
+  rdfs:comment "The average speed during ascent (km/h)";
+  rdfs:domain activo:ElevationStats;
+  rdfs:range xsd:float.
+
+activo:standingTime a owl:DatatypeProperty;
+  rdfs:label "standingTime";
+  rdfs:comment "The total time spent standing during the activity (s)";
+  rdfs:domain activo:CyclingDynamicsStats;
+  rdfs:range xsd:float.
+
+activo:seatedTime a owl:DatatypeProperty;
+  rdfs:label "seatedTime";
+  rdfs:comment "The total time spent seated during the activity (s)";
+  rdfs:domain activo:CyclingDynamicsStats;
+  rdfs:range xsd:float.
+
+activo:hasBalance a owl:ObjectProperty;
+  rdfs:label "hasBalance";
+  rdfs:comment "The left-right balance of the activity";
+  rdfs:domain activo:CyclingDynamicsStats;
+  rdfs:range activo:LeftRightPercent.
+
+activo:hasPedalSmoothness a owl:ObjectProperty;
+  rdfs:label "hasPedalSmoothness";
+  rdfs:comment "The average pedal smoothness during the activity";
+  rdfs:domain activo:CyclingDynamicsStats;
+  rdfs:range activo:LeftRightPercent.
+
+activo:hasTorqueEffectiveness a owl:ObjectProperty;
+  rdfs:label "hasTorqueEffectiveness";
+  rdfs:comment "The average torque effectiveness during the activity";
+  rdfs:domain activo:CyclingDynamicsStats;
+  rdfs:range activo:LeftRightPercent.
+
+activo:hasGroundContactTimeBalance a owl:ObjectProperty;
+  rdfs:label "groundContactTimeBalance";
+  rdfs:comment "The average ground contact time balance for the left and right sides";
+  rdfs:domain activo:RunningDynamicsStats;
+  rdfs:range activo:LeftRightPercent.
+
+activo:groundContactTime a owl:DatatypeProperty;
+  rdfs:label "groundContactTime";
+  rdfs:comment "The total average ground contact time (ms)";
+  rdfs:domain activo:RunningDynamicsStats;
+  rdfs:range xsd:float.
+
+activo:verticalOscillation a owl:DatatypeProperty;
+  rdfs:label "verticalOscillation";
+  rdfs:comment "Average vertical motion of your torso measured for each step (cm)";
+  rdfs:domain activo:RunningDynamicsStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: activo:verticalOscillation / activo:averageStrideLength
+activo:verticalRatio a owl:DatatypeProperty;
+  rdfs:label "verticalRatio";
+  rdfs:comment "The ratio of vertical oscillation to stride length (%)";
+  rdfs:domain activo:RunningDynamicsStats;
+  rdfs:range xsd:float.
+
+# alternative calculation: distance/stepCount?
+activo:averageStrideLength a owl:DatatypeProperty;
+  rdfs:label "averageStrideLength";
+  rdfs:comment "The average stride length (m)";
+  rdfs:domain activo:RunningDynamicsStats;
+  rdfs:range xsd:float.
+
+# Left Right Percent Model -----
+activo:LeftRightPercent a owl:Class;
+  rdfs:label "Left Right Percent";
+  rdfs:comment "A model for defining left-right balance percentages in an activity".
+
+activo:left a owl:DatatypeProperty;
+  rdfs:label "left";
+  rdfs:comment "The percentage of the left component";
+  rdfs:domain activo:LeftRightPercent;
+  rdfs:range xsd:float.
+
+activo:right a owl:DatatypeProperty;
+  rdfs:label "right";
+  rdfs:comment "The percentage of the right component";
+  rdfs:domain activo:LeftRightPercent;
+  rdfs:range xsd:float.
+
+# Zone Model -------------------
+activo:Zone a owl:Class;
+  rdfs:label "Zone";
+  rdfs:comment "A model for defining zones for an activity".
+
+activo:zoneStart a owl:DatatypeProperty;
+  rdfs:label "zoneStart";
+  rdfs:comment "The start of the zone from the beginning of the activity (s)";
+  rdfs:domain activo:Zone;
+  rdfs:range xsd:float.
+
+activo:zoneIndex a owl:DatatypeProperty;
+  rdfs:label "zoneIndex";
+  rdfs:comment "The index of the zone in the list of zones";
+  rdfs:domain activo:Zone;
+  rdfs:range xsd:int.
+
+activo:isZoneOf a owl:ObjectProperty;
+  rdfs:label "isZoneOf";
+  rdfs:comment "Indicates the statistics a zone belongs to";
+  rdfs:domain activo:Zone;
+  rdfs:range activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats.
+
+activo:time a owl:DatatypeProperty;
+  rdfs:label "time";
+  rdfs:comment "The time spent in the zone (s)";
+  rdfs:domain activo:Zone;
+  rdfs:range xsd:float.
+
+# Peak Model -------------------
+activo:Peak a owl:Class;
+  rdfs:label "Peak";
+  rdfs:comment "A model for defining peaks in an activity".
+
+activo:peakStart a owl:DatatypeProperty;
+  rdfs:label "peakStart";
+  rdfs:comment "The start of the peak from the beginning of the activity (s)";
+  rdfs:domain activo:Peak;
+  rdfs:range xsd:integer.
+
+activo:length a owl:DatatypeProperty;
+  rdfs:label "length";
+  rdfs:comment "The length of the peak (s)";
+  rdfs:domain activo:Peak;
+  rdfs:range xsd:integer.
+
+activo:peakValue a owl:DatatypeProperty;
+  rdfs:label "peakValue";
+  rdfs:comment "The value of the peak";
+  rdfs:domain activo:Peak;
+  rdfs:range xsd:float.
+
+activo:isPeakOf a owl:ObjectProperty;
+  rdfs:label "isPeakOf";
+  rdfs:comment "Indicates the statistics a peak belongs to";
+  rdfs:domain activo:Peak;
+  rdfs:range activo:SpeedStats,
+    activo:PaceStats,
+    activo:PowerStats,
+    activo:HeartRateStats,
+    activo:CadenceStats,
+    activo:GradeStats,
+    activo:ElevationStats.
+
+# Slope Model -------------------
+activo:SlopeStats a owl:Class;
+  rdfs:label "Slope Stats";
+  rdfs:comment "Statistics about a metric of the slope of an activity".
+
+activo:uphill a owl:DatatypeProperty;
+  rdfs:label "uphill";
+  rdfs:comment "The total of the metric during uphill sections";
+  rdfs:domain activo:SlopeStats;
+  rdfs:range xsd:float.
+
+activo:flat a owl:DatatypeProperty;
+  rdfs:label "flat";
+  rdfs:comment "The total of the metric during flat sections";
+  rdfs:domain activo:SlopeStats;
+  rdfs:range xsd:float.
+
+activo:downhill a owl:DatatypeProperty;
+  rdfs:label "downhill";
+  rdfs:comment "The total of the metric during downhill sections";
+  rdfs:domain activo:SlopeStats;
+  rdfs:range xsd:float.
+
+activo:total a owl:DatatypeProperty;
+  rdfs:label "total";
+  rdfs:comment "The total of the metric across all sections";
+  rdfs:domain activo:SlopeStats;
+  rdfs:range xsd:float.
+
+# Slope Profiles -------------------
+activo:SlopeProfile a owl:Class;
+  rdfs:label "Slope Profile";
+  rdfs:comment "A model for defining slope profiles of an activity".
+
+activo:FlatProfile a owl:Class;
+  rdfs:label "Flat Profile";
+  rdfs:comment "A flat slope profile";
+  rdfs:subClassOf activo:SlopeProfile.
+
+activo:HillyProfile a owl:Class;
+  rdfs:label "Hilly Profile";
+  rdfs:comment "A hilly slope profile";
+  rdfs:subClassOf activo:SlopeProfile.
+
+# Flag Model ---------------------
+activo:Flag a owl:Class;
+  rdfs:label "Flag";
+  rdfs:comment "A model for defining flags in an activity".
+
+activo:MOVING_TIME_GREATER_THAN_ELAPSED a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Moving Time Greater Than Elapsed Time";
+  rdfs:comment "Flag indicating that the moving time is greater than the elapsed time".
+
+activo:SPEED_AVG_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Average Speed";
+  rdfs:comment "Flag indicating that the average speed is abnormal".
+
+activo:SPEED_STD_DEV_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Speed Standard Deviation";
+  rdfs:comment "Flag indicating that the speed standard deviation is abnormal".
+
+activo:PACE_AVG_FASTER_THAN_GAP a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Average Pace Faster Than Grade Adjusted Pace";
+  rdfs:comment "Flag indicating that the average pace is faster than the grade adjusted pace".
+
+activo:ASCENT_SPEED_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Ascent Speed";
+  rdfs:comment "Flag indicating that the ascent speed is abnormal".
+
+activo:POWER_AVG_KG_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Average Watts per Kilogram";
+  rdfs:comment "Flag indicating that the average watts per kilogram is abnormal".
+
+activo:POWER_THRESHOLD_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Power Threshold";
+  rdfs:comment "Flag indicating that the power behavior is abnormal".
+
+activo:HR_AVG_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Heart Rate";
+  rdfs:comment "Flag indicating that the average heart rate is abnormal".
+
+activo:SCORE_HRSS_PER_HOUR_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Heart Rate Stress Score (HRSS) per Hour";
+  rdfs:comment "Flag indicating that the Heart Rate Stress Score (HRSS) is abnormal".
+
+activo:SCORE_PSS_PER_HOUR_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Power Stress Score (PSS) per Hour";
+  rdfs:comment "Flag indicating that the Power Stress Score (PSS) is abnormal".
+
+activo:SCORE_RSS_PER_HOUR_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Running Stress Score (RSS) per Hour";
+  rdfs:comment "Flag indicating that the Running Stress Score (RSS) is abnormal".
+
+activo:SCORE_SSS_PER_HOUR_ABNORMAL a owl:NamedIndividual, activo:Flag;
+  rdfs:label "Abnormal Swimming Stress Score (SSS) per Hour";
+  rdfs:comment "Flag indicating that the Swimming Stress Score (SSS) is abnormal".
+
