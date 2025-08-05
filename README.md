@@ -42,27 +42,43 @@ This repository uses GitHub Actions to automatically generate and deploy documen
 
 ### Local Development
 
-To generate documentation locally:
+To work with the ontology locally:
 
-1. **Set up Python environment** (recommended):
+1. **First-time setup** (recommended):
+   ```bash
+   make setup
+   ```
+
+   *Or manually*:
    ```bash
    python -m venv .venv
    source .venv/bin/activate  # On Linux/macOS
-   pip install pylode
+   # .venv\Scripts\activate     # On Windows
+   pip install -r requirements.txt
    ```
 
-   *Or install globally*:
+2. **Validate ontology syntax**:
    ```bash
-   pip install pylode
+   make test
    ```
 
-2. **Run the documentation generator**:
+3. **Generate documentation**:
    ```bash
-   ./generate-pylode.sh
+   make docs
    ```
 
-3. **View the documentation**:
+4. **View the documentation**:
    Open `docs/index.html` in your browser
+
+**Note**: The `.venv` directory is excluded from version control and should be created locally by each developer.
+
+### Testing
+
+The ontology includes automated validation to ensure Turtle syntax correctness:
+
+- **Local testing**: Run `python test_ontology.py` or `make test`
+- **CI/CD**: Automated validation runs on every push and pull request
+- **Statistics**: The test provides helpful statistics about classes, properties, and triples
 
 The script automatically:
 - Generates HTML documentation with enhanced styling (`vocpub` profile)
@@ -94,8 +110,10 @@ To enable automatic documentation deployment:
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes to `ontology.ttl`
-4. Test the ontology syntax
+4. **Test the ontology syntax**: `make test` or `python test_ontology.py`
 5. Submit a pull request
+
+All pull requests are automatically validated using GitHub Actions.
 
 ## 📄 License
 
