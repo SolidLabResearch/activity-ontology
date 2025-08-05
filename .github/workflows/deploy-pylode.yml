@@ -16,25 +16,46 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # First job: Validate the ontology
+  validate:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install pyLODE
+    - name: Install dependencies
       run: |
-        pip install pylode
+        make setup
+
+    - name: Validate ontology syntax
+      run: |
+        make test
+
+  # Second job: Build documentation (only if validation passes)
+  build:
+    runs-on: ubuntu-latest
+    needs: validate  # This ensures validation must pass first
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        make setup
 
     - name: Generate documentation
       run: |
-        chmod +x generate-pylode.sh
-        ./generate-pylode.sh
+        make docs
         echo "📁 Generated files:"
         ls -la docs/
 
@@ -46,6 +67,7 @@ jobs:
       with:
         path: './docs'
 
+  # Last job: deploy to GitHub Pages
   deploy:
     environment:
       name: github-pages
