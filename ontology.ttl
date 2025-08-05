@@ -926,9 +926,9 @@ activo:peakStart a owl:DatatypeProperty;
   rdfs:domain activo:Peak;
   rdfs:range xsd:integer.
 
-activo:length a owl:DatatypeProperty;
-  rdfs:label "length";
-  rdfs:comment "The length of the peak (s)";
+activo:peakDuration a owl:DatatypeProperty;
+  rdfs:label "peakDuration";
+  rdfs:comment "The duration of the peak (s)";
   rdfs:domain activo:Peak;
   rdfs:range xsd:integer.
 
