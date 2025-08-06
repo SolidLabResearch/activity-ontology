@@ -44,12 +44,6 @@ activo:Swim a owl:Class;
   rdfs:subClassOf activo:Activity.
 
 # Activity properties --------------------
-activo:id a owl:DatatypeProperty;
-  rdfs:label "id";
-  rdfs:comment "The unique identifier for the activity";
-  rdfs:domain activo:Activity;
-  rdfs:range xsd:string.
-
 activo:name a owl:DatatypeProperty;
   rdfs:label "name";
   rdfs:comment "The name of the activity";
