@@ -826,7 +826,7 @@ activo:hasTorqueEffectiveness a owl:ObjectProperty;
   rdfs:range activo:LeftRightPercent.
 
 activo:hasGroundContactTimeBalance a owl:ObjectProperty;
-  rdfs:label "groundContactTimeBalance";
+  rdfs:label "hasgroundContactTimeBalance";
   rdfs:comment "The average ground contact time balance for the left and right sides";
   rdfs:domain activo:RunningDynamicsStats;
   rdfs:range activo:LeftRightPercent.
