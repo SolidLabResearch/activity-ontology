@@ -30,89 +30,46 @@ else
 fi
 
 # Copy ontology files to docs directory for download
-cp "$ONTOLOGY_FILE" "$DOCS_DIR/"
-
-# Generate additional formats if needed
 echo "📄 Copying ontology source files..."
-
-# Create .htaccess content for w3id.org setup
-cat > "$DOCS_DIR/.htaccess" << 'EOF'
-# Content negotiation for Sports Activity Ontology
-# Dereferencable URIs with proper content negotiation
-
-Options +FollowSymLinks
-RewriteEngine on
-
-# Default response (HTML documentation)
-RewriteCond %{HTTP_ACCEPT} !application/rdf\+xml.*(text/html|application/xhtml\+xml)
-RewriteCond %{HTTP_ACCEPT} text/html [OR]
-RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml [OR]
-RewriteCond %{HTTP_USER_AGENT} ^Mozilla/.*
-RewriteRule ^$ index.html [R=303,L]
-
-# Turtle format
-RewriteCond %{HTTP_ACCEPT} text/turtle [OR]
-RewriteCond %{HTTP_ACCEPT} application/turtle [OR]
-RewriteCond %{HTTP_ACCEPT} application/x-turtle
-RewriteRule ^$ ontology.ttl [R=303,L]
-
-# RDF/XML format
-RewriteCond %{HTTP_ACCEPT} application/rdf\+xml
-RewriteRule ^$ ontology.ttl [R=303,L]
-
-# JSON-LD format  
-RewriteCond %{HTTP_ACCEPT} application/ld\+json
-RewriteRule ^$ ontology.ttl [R=303,L]
-
-# Default fallback to HTML
-RewriteRule ^$ index.html [R=303,L]
-
-# Individual class/property resolution
-# Example: https://solidlabresearch.github.io/activity-ontology#Activity
-RewriteCond %{HTTP_ACCEPT} text/html [OR]
-RewriteCond %{HTTP_ACCEPT} application/xhtml\+xml [OR]
-RewriteCond %{HTTP_USER_AGENT} ^Mozilla/.*
-RewriteRule ^(.*)$ index.html#$1 [R=303,L]
-
-# For RDF content, return the ontology file
-RewriteRule ^(.*)$ ontology.ttl [R=303,L]
-EOF
-
-# Create README for w3id.org submission
-cat > "$DOCS_DIR/README.md" << 'EOF'
-# Sports Activity Ontology - W3ID Permanent Identifier
-
-## Contact
-- **Name**: Maarten Vandenbrande
-- **Organization**: SolidLab Research
-- **Email**: maarten.vandenbrande@ugent.be
-- **GitHub**: https://github.com/maartyman
-
-## Project Information
-- **Ontology**: Sports Activity Ontology
-- **Namespace**: https://w3id.org/activity-ontology/
-- **Repository**: https://github.com/SolidLabResearch/activity-ontology
-- **Documentation**: https://solidlabresearch.github.io/activity-ontology/
-
-## Redirects
-This directory contains the redirect configuration for the Sports Activity Ontology permanent identifiers.
-
-### Content Negotiation
-- HTML: Returns human-readable documentation
-- RDF formats (Turtle, RDF/XML, JSON-LD): Returns machine-readable ontology
-- Individual terms: Redirects to documentation with fragment identifier
-
-### Examples
-- `https://w3id.org/activity-ontology/` → Documentation or RDF based on Accept header
-- `https://w3id.org/activity-ontology/Activity` → `https://solidlabresearch.github.io/activity-ontology/#Activity`
-EOF
-
-echo "🌐 Creating enhanced index page with better navigation..."
+cp "$ONTOLOGY_FILE" "$DOCS_DIR/"
 
 # Create improved index.html if pyLODE output needs enhancement
 if [ -f "$DOCS_DIR/index.html" ]; then
-    # Add navigation and styling if needed
-    echo "✅ pyLODE documentation generated successfully!"
+    echo "🔄 Post-processing documentation: replacing JSON-LD with Turtle script..."
+    
+    # Create a temporary file for processing
+    TEMP_FILE=$(mktemp)
+    
+    # Remove the JSON-LD script section and replace with Turtle script
+    awk '
+    BEGIN { in_jsonld = 0; print_turtle = 0 }
+    /<script id="schema\.org" type="application\/ld\+json">/ {
+        in_jsonld = 1
+        # Insert Turtle script instead
+        print "    <script type=\"text/turtle\">"
+        # Read and insert the ontology content
+        while ((getline line < "'"$ONTOLOGY_FILE"'") > 0) {
+            print line
+        }
+        close("'"$ONTOLOGY_FILE"'")
+        print_turtle = 1
+        next
+    }
+    /^[[:space:]]*<\/script>[[:space:]]*$/ && in_jsonld {
+        if (print_turtle) {
+            print "\t</script>"
+            print_turtle = 0
+        }
+        in_jsonld = 0
+        next
+    }
+    !in_jsonld { print }
+    ' "$DOCS_DIR/index.html" > "$TEMP_FILE"
+    
+    # Replace the original file
+    mv "$TEMP_FILE" "$DOCS_DIR/index.html"
+    
+    echo "✅ pyLODE documentation generated and enhanced successfully!"
 else
     echo "❌ Failed to generate pyLODE documentation"
     exit 1
