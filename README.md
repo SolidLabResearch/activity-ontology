@@ -9,7 +9,7 @@ The complete ontology documentation is automatically generated and hosted at:
 
 ## 🚀 Features
 
-- **Comprehensive Activity Modeling**: Supports various sports activities (cycling, running, swimming)
+- **Comprehensive Activity Modeling**: Supports local activity type concepts linked to IPTC Media Topic and OpenActive Activity List identifiers
 - **Performance Metrics**: Detailed statistics for speed, power, heart rate, cadence, and more
 - **Athlete Profiles**: Performance snapshots and athlete data modeling
 - **Provenance Integration**: Built-in support for data lineage and device tracking using PROV-O
@@ -19,15 +19,35 @@ The complete ontology documentation is automatically generated and hosted at:
 ## 🏗️ Ontology Structure
 
 ### Core Classes
-- `Activity` - Base class for all sports activities
+- `Activity` - Base class for all sports activities, classified with `activo:activityType`
+- `ActivityType` - Local SKOS concept values for activity type classification
 - `Athlete` - Athlete profiles with performance data
 - `Stats` - Statistical measurements and metrics
 - `Device` - Sports tracking devices and data sources
 
-### Activity Types
-- `Ride` - Cycling activities
-- `Run` - Running activities  
-- `Swim` - Swimming activities
+### Activity Type Classification
+Activities are typed as `activo:Activity` and classified with `activo:activityType`. Prefer local `activo:ActivityType` values for project data; direct IPTC Media Topic and OpenActive Activity List SKOS concepts are also valid values.
+
+Local value example:
+```turtle
+@prefix activo: <https://solidlabresearch.github.io/activity-ontology#>.
+
+:activity a activo:Activity;
+  activo:activityType activo:Ride.
+```
+
+External identifier example:
+```turtle
+@prefix activo: <https://solidlabresearch.github.io/activity-ontology#>.
+@prefix medtop: <http://cv.iptc.org/newscodes/mediatopic/>.
+@prefix oaactivity: <https://openactive.io/activity-list#>.
+
+:activity a activo:Activity;
+  activo:activityType medtop:20000892,
+                      oaactivity:4a19873e-118e-43f4-b86e-05acba8fb1de.
+```
+
+Local activity type values are defined in the ontology. Where an exact or clear equivalent exists, they are linked with `skos:exactMatch` to IPTC and/or OpenActive identifiers.
 
 ### Statistics Categories
 - Speed, Pace, Power, Heart Rate
