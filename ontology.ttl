@@ -15,7 +15,9 @@
   rdfs:comment "An ontology for modeling sports activities, performance metrics, and athlete data";
   owl:versionInfo "0.1";
   owl:imports <http://www.w3.org/ns/prov#>,
-              <http://xmlns.com/foaf/0.1/>;
+            <http://xmlns.com/foaf/0.1/>,
+            <http://www.w3.org/2004/02/skos/core>,
+            <http://purl.org/dc/terms/>;
   rdfs:seeAlso <https://github.com/SolidLabResearch/activity-ontology>;
   rdfs:seeAlso <https://github.com/SolidLabResearch/elevate>.
 
@@ -625,86 +627,101 @@ activo:Athlete a owl:Class;
   rdfs:comment "A model for defining an athlete in sports";
   rdfs:subClassOf foaf:Person.
 
-activo:PerformanceSnapshot a owl:Class;
-  rdfs:label "Athlete Performance Snapshot";
-  rdfs:comment "A snapshot of an athlete's performance at a specific time".
+activo:AthleteSettings a owl:Class;
+  rdfs:label "Athlete Settings";
+  rdfs:comment "Reusable performance-related settings for an athlete".
 
-activo:hasPerformanceSnapshot a owl:ObjectProperty;
-  rdfs:label "hasPerformanceSnapshot";
-  rdfs:comment "Indicates a performance snapshot of an athlete or activity";
-  rdfs:domain [
-    a owl:Class;
-    owl:unionOf (activo:Athlete activo:Activity)
-  ];
-  rdfs:range activo:PerformanceSnapshot.
+activo:DatedAthleteSettings a owl:Class;
+  rdfs:label "Dated Athlete Settings";
+  rdfs:comment "Athlete settings that are valid for a dated interval";
+  rdfs:subClassOf activo:AthleteSettings.
+
+activo:AthleteSettingsHistory a owl:Class;
+  rdfs:label "Athlete Settings History";
+  rdfs:comment "A collection of dated athlete settings for an athlete".
+
+activo:hasAthleteSettingsHistory a owl:ObjectProperty;
+  rdfs:label "hasAthleteSettingsHistory";
+  rdfs:comment "Indicates the settings history of an athlete";
+  rdfs:domain activo:Athlete;
+  rdfs:range activo:AthleteSettingsHistory.
+
+activo:hasDatedAthleteSettings a owl:ObjectProperty;
+  rdfs:label "hasDatedAthleteSettings";
+  rdfs:comment "Indicates dated athlete settings in a settings history";
+  rdfs:domain activo:AthleteSettingsHistory;
+  rdfs:range activo:DatedAthleteSettings.
 
 activo:hasAthlete a owl:ObjectProperty;
   rdfs:label "hasAthlete";
-  rdfs:comment "Indicates the athlete of a performance snapshot or activity";
-  rdfs:domain [
-    a owl:Class;
-    owl:unionOf (activo:PerformanceSnapshot activo:Activity)
-  ];
+  rdfs:comment "Indicates the athlete of an activity";
+  rdfs:domain activo:Activity;
   rdfs:range activo:Athlete.
 
 activo:from a owl:DatatypeProperty;
   rdfs:label "from";
-  rdfs:comment "The start time of the performance snapshot";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:comment "The start time of the dated athlete settings";
+  rdfs:domain activo:DatedAthleteSettings;
+  rdfs:range xsd:dateTime.
+
+activo:to a owl:DatatypeProperty;
+  rdfs:label "to";
+  rdfs:comment "The end time of the dated athlete settings";
+  rdfs:domain activo:DatedAthleteSettings;
   rdfs:range xsd:dateTime.
 
 activo:maxHeartRate a owl:DatatypeProperty;
   rdfs:label "maxHeartRate";
   rdfs:comment "The maximum heart rate of the athlete (bpm)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
 activo:restHeartRate a owl:DatatypeProperty;
   rdfs:label "restHeartRate";
   rdfs:comment "The resting heart rate of the athlete (bpm)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
 activo:cyclingLactateThreshold a owl:DatatypeProperty;
   rdfs:label "cyclingLactateThreshold";
   rdfs:comment "The lactate threshold for cycling (bpm)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
 activo:runningLactateThreshold a owl:DatatypeProperty;
   rdfs:label "runningLactateThreshold";
   rdfs:comment "The lactate threshold for running (bpm)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
 activo:defaultLactateThreshold a owl:DatatypeProperty;
   rdfs:label "defaultLactateThreshold";
   rdfs:comment "The default lactate threshold for the athlete (bpm)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
 activo:cyclingFunctionalThresholdPower a owl:DatatypeProperty;
   rdfs:label "cyclingFunctionalThresholdPower";
   rdfs:comment "The functional threshold power for cycling (watts)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
-activo:runningFunctionalThresholdPower a owl:DatatypeProperty;
-  rdfs:label "runningFunctionalThresholdPower";
-  rdfs:comment "The functional threshold power for running (watts)";
-  rdfs:domain activo:PerformanceSnapshot;
+activo:runningFunctionalThresholdPace a owl:DatatypeProperty;
+  rdfs:label "runningFunctionalThresholdPace";
+  rdfs:comment "The functional threshold pace for running (seconds/kilometer)";
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:int.
 
-activo:swimmingFunctionalThresholdPower a owl:DatatypeProperty;
-  rdfs:label "swimmingFunctionalThresholdPower";
-  rdfs:comment "The functional threshold power for swimming (watts)";
-  rdfs:domain activo:PerformanceSnapshot;
-  rdfs:range xsd:int.
+activo:swimmingFunctionalThresholdSpeed a owl:DatatypeProperty;
+  rdfs:label "swimmingFunctionalThresholdSpeed";
+  rdfs:comment "The functional threshold speed for swimming (meters/minute)";
+  rdfs:domain activo:AthleteSettings;
+  rdfs:range xsd:float.
 
 activo:weight a owl:DatatypeProperty;
   rdfs:label "weight";
   rdfs:comment "The weight of the athlete (kilograms)";
-  rdfs:domain activo:PerformanceSnapshot;
+  rdfs:domain activo:AthleteSettings;
   rdfs:range xsd:float.
 
 # Lap Model --------------------

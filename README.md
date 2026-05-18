@@ -11,7 +11,7 @@ The complete ontology documentation is automatically generated and hosted at:
 
 - **Comprehensive Activity Modeling**: Supports local activity type concepts linked to IPTC Media Topic and OpenActive Activity List identifiers
 - **Performance Metrics**: Detailed statistics for speed, power, heart rate, cadence, and more
-- **Athlete Profiles**: Performance snapshots and athlete data modeling
+- **Athlete Profiles**: Athlete settings and dated settings history modeling
 - **Provenance Integration**: Built-in support for data lineage and device tracking using PROV-O
 - **Standards Compliant**: Follows W3C best practices and integrates with established ontologies
 - **Dereferencable URIs**: Content negotiation support for both human and machine-readable formats
