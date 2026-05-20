@@ -6,7 +6,6 @@
 @prefix prov: <http://www.w3.org/ns/prov#>.
 @prefix dct: <http://purl.org/dc/terms/>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
-@prefix medtop: <http://cv.iptc.org/newscodes/mediatopic/>.
 @prefix oaactivity: <https://openactive.io/activity-list#>.
 @prefix activo: <https://solidlabresearch.github.io/activity-ontology#>.
 
@@ -46,21 +45,18 @@ activo:ActivityType a owl:Class;
 
 activo:ActivityTypeScheme a skos:ConceptScheme;
   skos:prefLabel "Activity Type Scheme"@en;
-  rdfs:comment "Local activity type concepts for classifying activities, with exact matches to IPTC Media Topic and OpenActive Activity List concepts where available";
-  dct:source <https://cv.iptc.org/newscodes/mediatopic/>,
-    <https://openactive.io/activity-list/activity-list.jsonld>.
+  rdfs:comment "Local activity type concepts for classifying activities, with exact matches to OpenActive Activity List concepts where available";
+  dct:source <https://openactive.io/activity-list/activity-list.jsonld>.
 
 activo:AlpineSki a activo:ActivityType, skos:Concept;
   skos:prefLabel "Alpine Ski"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001057,
-    oaactivity:f21b5af1-e230-47d4-a58a-858caee30691.
+  skos:exactMatch oaactivity:f21b5af1-e230-47d4-a58a-858caee30691.
 
 activo:AmericanFootball a activo:ActivityType, skos:Concept;
   skos:prefLabel "American Football"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000823,
-    oaactivity:9caeb442-2834-4859-b660-9172ed61ee71.
+  skos:exactMatch oaactivity:9caeb442-2834-4859-b660-9172ed61ee71.
 
 activo:Aquathlon a activo:ActivityType, skos:Concept;
   skos:prefLabel "Aquathlon"@en;
@@ -74,32 +70,27 @@ activo:BackcountrySki a activo:ActivityType, skos:Concept;
 activo:Badminton a activo:ActivityType, skos:Concept;
   skos:prefLabel "Badminton"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000847,
-    oaactivity:c0360db0-a817-4bae-9167-40f89b49fc9e.
+  skos:exactMatch oaactivity:c0360db0-a817-4bae-9167-40f89b49fc9e.
 
 activo:Baseball a activo:ActivityType, skos:Concept;
   skos:prefLabel "Baseball"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000849,
-    oaactivity:ab4a33f2-dc13-4f7f-afa4-a3184dc00eab.
+  skos:exactMatch oaactivity:ab4a33f2-dc13-4f7f-afa4-a3184dc00eab.
 
 activo:Basketball a activo:ActivityType, skos:Concept;
   skos:prefLabel "Basketball"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000851,
-    oaactivity:e09776e6-f1b4-421b-b667-5c5913cf97aa.
+  skos:exactMatch oaactivity:e09776e6-f1b4-421b-b667-5c5913cf97aa.
 
 activo:Boxing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Boxing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000856,
-    oaactivity:d4417bb3-383f-489b-b0c7-731b82f3b220.
+  skos:exactMatch oaactivity:d4417bb3-383f-489b-b0c7-731b82f3b220.
 
 activo:Canoeing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Canoeing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000877,
-    oaactivity:e0425262-6f1d-4c58-ba8a-dd790c5351b1.
+  skos:exactMatch oaactivity:e0425262-6f1d-4c58-ba8a-dd790c5351b1.
 
 activo:Cardio a activo:ActivityType, skos:Concept;
   skos:prefLabel "Cardio"@en;
@@ -117,8 +108,7 @@ activo:Combat a activo:ActivityType, skos:Concept;
 activo:Cricket a activo:ActivityType, skos:Concept;
   skos:prefLabel "Cricket"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000888,
-    oaactivity:77e3f8fa-c8b3-4e4e-bf1a-ff4b914bb6ec.
+  skos:exactMatch oaactivity:77e3f8fa-c8b3-4e4e-bf1a-ff4b914bb6ec.
 
 activo:Crossfit a activo:ActivityType, skos:Concept;
   skos:prefLabel "Crossfit"@en;
@@ -128,14 +118,12 @@ activo:Crossfit a activo:ActivityType, skos:Concept;
 activo:Dance a activo:ActivityType, skos:Concept;
   skos:prefLabel "Dance"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000007,
-    oaactivity:6ca15167-51da-4d91-a1ae-8a45dc47b0ea.
+  skos:exactMatch oaactivity:6ca15167-51da-4d91-a1ae-8a45dc47b0ea.
 
 activo:Diving a activo:ActivityType, skos:Concept;
   skos:prefLabel "Diving"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000913,
-    oaactivity:aafbe00d-e03e-4e5d-9612-c53c8b332d94.
+  skos:exactMatch oaactivity:aafbe00d-e03e-4e5d-9612-c53c8b332d94.
 
 activo:Drive a activo:ActivityType, skos:Concept;
   skos:prefLabel "Drive"@en;
@@ -144,8 +132,7 @@ activo:Drive a activo:ActivityType, skos:Concept;
 activo:Duathlon a activo:ActivityType, skos:Concept;
   skos:prefLabel "Duathlon"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000922,
-    oaactivity:7a0d4399-d7a2-43e4-b9dc-5bf88c7a7eea.
+  skos:exactMatch oaactivity:7a0d4399-d7a2-43e4-b9dc-5bf88c7a7eea.
 
 activo:EBikeRide a activo:ActivityType, skos:Concept;
   skos:prefLabel "E-Bike Ride"@en;
@@ -167,8 +154,7 @@ activo:EUnicycle a activo:ActivityType, skos:Concept;
 activo:Fishing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Fishing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000561,
-    oaactivity:72d19892-5f55-4e9c-87b0-a5433baa49c8.
+  skos:exactMatch oaactivity:72d19892-5f55-4e9c-87b0-a5433baa49c8.
 
 activo:Flying a activo:ActivityType, skos:Concept;
   skos:prefLabel "Flying"@en;
@@ -177,25 +163,21 @@ activo:Flying a activo:ActivityType, skos:Concept;
 activo:Football a activo:ActivityType, skos:Concept;
   skos:prefLabel "Football"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001065,
-    oaactivity:0a5f732d-e806-4e51-ad40-0a7de0239c8c.
+  skos:exactMatch oaactivity:0a5f732d-e806-4e51-ad40-0a7de0239c8c.
 
 activo:Frisbee a activo:ActivityType, skos:Concept;
   skos:prefLabel "Frisbee"@en;
-  skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000938.
+  skos:inScheme activo:ActivityTypeScheme.
 
 activo:Golf a activo:ActivityType, skos:Concept;
   skos:prefLabel "Golf"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000940,
-    oaactivity:7ae6067a-07f7-4aea-9e1f-eeeea5ae9047.
+  skos:exactMatch oaactivity:7ae6067a-07f7-4aea-9e1f-eeeea5ae9047.
 
 activo:Gymnastics a activo:ActivityType, skos:Concept;
   skos:prefLabel "Gymnastics"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000942,
-    oaactivity:f6ccded0-2666-4a51-88a4-ed6905bb4313.
+  skos:exactMatch oaactivity:f6ccded0-2666-4a51-88a4-ed6905bb4313.
 
 activo:Handcycle a activo:ActivityType, skos:Concept;
   skos:prefLabel "Handcycle"@en;
@@ -204,8 +186,7 @@ activo:Handcycle a activo:ActivityType, skos:Concept;
 activo:Handball a activo:ActivityType, skos:Concept;
   skos:prefLabel "Handball"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000958,
-    oaactivity:14232d6d-5e9d-493d-b4a9-ce2061b79ba5.
+  skos:exactMatch oaactivity:14232d6d-5e9d-493d-b4a9-ce2061b79ba5.
 
 activo:HangGliding a activo:ActivityType, skos:Concept;
   skos:prefLabel "Hang Gliding"@en;
@@ -220,14 +201,12 @@ activo:Hike a activo:ActivityType, skos:Concept;
 activo:HorsebackRiding a activo:ActivityType, skos:Concept;
   skos:prefLabel "Horseback Riding"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001241,
-    oaactivity:45a372d9-baca-4f6c-859f-04de3efae742.
+  skos:exactMatch oaactivity:45a372d9-baca-4f6c-859f-04de3efae742.
 
 activo:IceHockey a activo:ActivityType, skos:Concept;
   skos:prefLabel "Ice Hockey"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000965,
-    oaactivity:d82e1366-afab-4c87-b94e-6b5372733b13.
+  skos:exactMatch oaactivity:d82e1366-afab-4c87-b94e-6b5372733b13.
 
 activo:IceSkate a activo:ActivityType, skos:Concept;
   skos:prefLabel "Ice Skate"@en;
@@ -242,8 +221,7 @@ activo:InlineSkate a activo:ActivityType, skos:Concept;
 activo:Kayaking a activo:ActivityType, skos:Concept;
   skos:prefLabel "Kayaking"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000979,
-    oaactivity:598ceb23-216c-4f8a-9a7a-0eef6e3a4ae8.
+  skos:exactMatch oaactivity:598ceb23-216c-4f8a-9a7a-0eef6e3a4ae8.
 
 activo:Kitesurf a activo:ActivityType, skos:Concept;
   skos:prefLabel "Kitesurf"@en;
@@ -262,20 +240,17 @@ activo:MotorSports a activo:ActivityType, skos:Concept;
 activo:Mountaineering a activo:ActivityType, skos:Concept;
   skos:prefLabel "Mountaineering"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000886,
-    oaactivity:5fba2a76-07ee-4f99-b243-018245b0200d.
+  skos:exactMatch oaactivity:5fba2a76-07ee-4f99-b243-018245b0200d.
 
 activo:NordicSki a activo:ActivityType, skos:Concept;
   skos:prefLabel "Nordic Ski"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001060,
-    oaactivity:9bb258e2-57f2-423e-8dd8-a3796df1cfd1.
+  skos:exactMatch oaactivity:9bb258e2-57f2-423e-8dd8-a3796df1cfd1.
 
 activo:Orienteering a activo:ActivityType, skos:Concept;
   skos:prefLabel "Orienteering"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001011,
-    oaactivity:b2d5619e-56a7-4c40-b691-7f946f6ff5df.
+  skos:exactMatch oaactivity:b2d5619e-56a7-4c40-b691-7f946f6ff5df.
 
 activo:Other a activo:ActivityType, skos:Concept;
   skos:prefLabel "Other"@en;
@@ -289,8 +264,7 @@ activo:Paragliding a activo:ActivityType, skos:Concept;
 activo:Ride a activo:ActivityType, skos:Concept;
   skos:prefLabel "Ride"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000892,
-    oaactivity:4a19873e-118e-43f4-b86e-05acba8fb1de.
+  skos:exactMatch oaactivity:4a19873e-118e-43f4-b86e-05acba8fb1de.
 
 activo:RockClimbing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Rock Climbing"@en;
@@ -305,14 +279,12 @@ activo:RollerSki a activo:ActivityType, skos:Concept;
 activo:Rowing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Rowing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001026,
-    oaactivity:d2733a1c-662c-427a-a270-400171c07320.
+  skos:exactMatch oaactivity:d2733a1c-662c-427a-a270-400171c07320.
 
 activo:Rugby a activo:ActivityType, skos:Concept;
   skos:prefLabel "Rugby"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001176,
-    oaactivity:5d528d2f-83df-482e-bfb9-fcaee5b85f4a.
+  skos:exactMatch oaactivity:5d528d2f-83df-482e-bfb9-fcaee5b85f4a.
 
 activo:Run a activo:ActivityType, skos:Concept;
   skos:prefLabel "Run"@en;
@@ -322,14 +294,12 @@ activo:Run a activo:ActivityType, skos:Concept;
 activo:Sailing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Sailing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001038,
-    oaactivity:6bb8b844-df3e-4cae-bf5f-3e129c6b1a9d.
+  skos:exactMatch oaactivity:6bb8b844-df3e-4cae-bf5f-3e129c6b1a9d.
 
 activo:Skateboard a activo:ActivityType, skos:Concept;
   skos:prefLabel "Skateboard"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001156,
-    oaactivity:50feff1b-790f-4f0f-9c07-0314557897c4.
+  skos:exactMatch oaactivity:50feff1b-790f-4f0f-9c07-0314557897c4.
 
 activo:SkiTouring a activo:ActivityType, skos:Concept;
   skos:prefLabel "Ski Touring"@en;
@@ -338,8 +308,7 @@ activo:SkiTouring a activo:ActivityType, skos:Concept;
 activo:SkyDiving a activo:ActivityType, skos:Concept;
   skos:prefLabel "Sky Diving"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001062,
-    oaactivity:74d78e37-1a40-4856-8dcb-db356e1b8b4c.
+  skos:exactMatch oaactivity:74d78e37-1a40-4856-8dcb-db356e1b8b4c.
 
 activo:Snorkeling a activo:ActivityType, skos:Concept;
   skos:prefLabel "Snorkeling"@en;
@@ -349,8 +318,7 @@ activo:Snorkeling a activo:ActivityType, skos:Concept;
 activo:Snowboard a activo:ActivityType, skos:Concept;
   skos:prefLabel "Snowboard"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001064,
-    oaactivity:7baa967e-87db-4346-84f8-5045ed49fd6a.
+  skos:exactMatch oaactivity:7baa967e-87db-4346-84f8-5045ed49fd6a.
 
 activo:Snowmobiling a activo:ActivityType, skos:Concept;
   skos:prefLabel "Snowmobiling"@en;
@@ -363,14 +331,12 @@ activo:Snowshoe a activo:ActivityType, skos:Concept;
 activo:Softball a activo:ActivityType, skos:Concept;
   skos:prefLabel "Softball"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001066,
-    oaactivity:ec1475e3-6ae4-4187-a492-8f821fbc2faa.
+  skos:exactMatch oaactivity:ec1475e3-6ae4-4187-a492-8f821fbc2faa.
 
 activo:Squash a activo:ActivityType, skos:Concept;
   skos:prefLabel "Squash"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001068,
-    oaactivity:b7845b8a-4c0c-4a8f-93d3-d41d62eec889.
+  skos:exactMatch oaactivity:b7845b8a-4c0c-4a8f-93d3-d41d62eec889.
 
 activo:StairStepper a activo:ActivityType, skos:Concept;
   skos:prefLabel "Stair Stepper"@en;
@@ -380,8 +346,7 @@ activo:StairStepper a activo:ActivityType, skos:Concept;
 activo:StandUpPaddling a activo:ActivityType, skos:Concept;
   skos:prefLabel "Stand Up Paddling"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001307,
-    oaactivity:12e7315a-3182-415b-aaf3-923d23adfdf8.
+  skos:exactMatch oaactivity:12e7315a-3182-415b-aaf3-923d23adfdf8.
 
 activo:Stretching a activo:ActivityType, skos:Concept;
   skos:prefLabel "Stretching"@en;
@@ -391,20 +356,17 @@ activo:Stretching a activo:ActivityType, skos:Concept;
 activo:Surfing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Surfing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001070,
-    oaactivity:ba5381a0-c981-4879-9b44-8b18e922c412.
+  skos:exactMatch oaactivity:ba5381a0-c981-4879-9b44-8b18e922c412.
 
 activo:Swim a activo:ActivityType, skos:Concept;
   skos:prefLabel "Swim"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001071,
-    oaactivity:2750229d-b725-4171-9276-376be913957c.
+  skos:exactMatch oaactivity:2750229d-b725-4171-9276-376be913957c.
 
 activo:TableTennis a activo:ActivityType, skos:Concept;
   skos:prefLabel "Table Tennis"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001083,
-    oaactivity:1a05993d-b206-4efe-85da-646fa340bdf4.
+  skos:exactMatch oaactivity:1a05993d-b206-4efe-85da-646fa340bdf4.
 
 activo:Tactical a activo:ActivityType, skos:Concept;
   skos:prefLabel "Tactical"@en;
@@ -412,26 +374,22 @@ activo:Tactical a activo:ActivityType, skos:Concept;
 
 activo:TelemarkSki a activo:ActivityType, skos:Concept;
   skos:prefLabel "Telemark Ski"@en;
-  skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001153.
+  skos:inScheme activo:ActivityTypeScheme.
 
 activo:Tennis a activo:ActivityType, skos:Concept;
   skos:prefLabel "Tennis"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001085,
-    oaactivity:f2ea7405-6098-4378-b0fe-4e398a659fc4.
+  skos:exactMatch oaactivity:f2ea7405-6098-4378-b0fe-4e398a659fc4.
 
 activo:TrackAndField a activo:ActivityType, skos:Concept;
   skos:prefLabel "Track And Field"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20000827,
-    oaactivity:91dbf631-5071-43d2-b49d-3cecf2a40f5c.
+  skos:exactMatch oaactivity:91dbf631-5071-43d2-b49d-3cecf2a40f5c.
 
 activo:Triathlon a activo:ActivityType, skos:Concept;
   skos:prefLabel "Triathlon"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001087,
-    oaactivity:c4e6c711-66fc-438e-b206-1dfdddc2d912.
+  skos:exactMatch oaactivity:c4e6c711-66fc-438e-b206-1dfdddc2d912.
 
 activo:Velomobile a activo:ActivityType, skos:Concept;
   skos:prefLabel "Velomobile"@en;
@@ -448,8 +406,7 @@ activo:VirtualRun a activo:ActivityType, skos:Concept;
 activo:Volleyball a activo:ActivityType, skos:Concept;
   skos:prefLabel "Volleyball"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001089,
-    oaactivity:065c8564-144a-4833-b95a-db8550e6ac86.
+  skos:exactMatch oaactivity:065c8564-144a-4833-b95a-db8550e6ac86.
 
 activo:Wakeboarding a activo:ActivityType, skos:Concept;
   skos:prefLabel "Wakeboarding"@en;
@@ -464,8 +421,7 @@ activo:Walk a activo:ActivityType, skos:Concept;
 activo:WaterSkiing a activo:ActivityType, skos:Concept;
   skos:prefLabel "Water Skiing"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001092,
-    oaactivity:ba9a2508-fbc7-4cd2-bf5a-398211ba88a4.
+  skos:exactMatch oaactivity:ba9a2508-fbc7-4cd2-bf5a-398211ba88a4.
 
 activo:WeightTraining a activo:ActivityType, skos:Concept;
   skos:prefLabel "Weight Training"@en;
@@ -479,8 +435,7 @@ activo:Wheelchair a activo:ActivityType, skos:Concept;
 activo:Windsurf a activo:ActivityType, skos:Concept;
   skos:prefLabel "Windsurf"@en;
   skos:inScheme activo:ActivityTypeScheme;
-  skos:exactMatch medtop:20001097,
-    oaactivity:76282a7a-11cf-4da7-86f1-b0f192dd0f56.
+  skos:exactMatch oaactivity:76282a7a-11cf-4da7-86f1-b0f192dd0f56.
 
 activo:Workout a activo:ActivityType, skos:Concept;
   skos:prefLabel "Workout"@en;
@@ -494,7 +449,7 @@ activo:Yoga a activo:ActivityType, skos:Concept;
 # Activity properties --------------------
 activo:activityType a owl:ObjectProperty;
   rdfs:label "activity type";
-  rdfs:comment "The activity type concept classifying the activity. Use local activo:ActivityType values or external SKOS concepts such as IPTC Media Topic and OpenActive Activity List concepts";
+  rdfs:comment "The activity type concept classifying the activity. Use local activo:ActivityType values or external SKOS concepts such as OpenActive Activity List concepts";
   rdfs:domain activo:Activity;
   rdfs:range skos:Concept.
 
