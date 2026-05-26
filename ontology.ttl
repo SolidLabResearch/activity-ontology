@@ -16,9 +16,7 @@
   owl:imports <http://www.w3.org/ns/prov#>,
             <http://xmlns.com/foaf/0.1/>,
             <http://www.w3.org/2004/02/skos/core>,
-            <http://purl.org/dc/terms/>;
-  rdfs:seeAlso <https://github.com/SolidLabResearch/activity-ontology>;
-  rdfs:seeAlso <https://github.com/SolidLabResearch/elevate>.
+            <http://purl.org/dc/terms/>.
 
 # Provenance Integration Comment
 # This ontology uses PROV-O (W3C Provenance Ontology) for modeling:
