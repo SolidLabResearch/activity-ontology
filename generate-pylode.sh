@@ -20,14 +20,41 @@ fi
 # Create docs directory
 mkdir -p "$DOCS_DIR"
 
+if [ -f ".venv/bin/python" ]; then
+    PYTHON_BIN=".venv/bin/python"
+else
+    PYTHON_BIN="python"
+fi
+
+TEMP_ONTOLOGY=$(mktemp)
+trap 'rm -f "$TEMP_ONTOLOGY" "${TEMP_FILE:-}"' EXIT
+
+echo "🧭 Preparing ontology metadata for pyLODE..."
+
+# pyLODE treats every skos:ConceptScheme as top-level document metadata.
+# Render from a temporary graph without those type triples so the HTML
+# metadata block describes only the owl:Ontology resource. The published
+# ontology copied below remains unchanged.
+"$PYTHON_BIN" - "$ONTOLOGY_FILE" "$TEMP_ONTOLOGY" <<'PY'
+import sys
+from rdflib import Graph, RDF, OWL, SKOS
+
+source, destination = sys.argv[1:3]
+graph = Graph()
+graph.parse(source, format="turtle")
+
+ontology_subjects = set(graph.subjects(RDF.type, OWL.Ontology))
+for subject in list(graph.subjects(RDF.type, SKOS.ConceptScheme)):
+    if subject not in ontology_subjects:
+        graph.remove((subject, RDF.type, SKOS.ConceptScheme))
+
+graph.serialize(destination=destination, format="turtle")
+PY
+
 echo "📚 Generating documentation with pyLODE..."
 
 # Generate HTML documentation using pyLODE
-if [ -f ".venv/bin/python" ]; then
-    .venv/bin/python -m pylode "$ONTOLOGY_FILE" -o "$DOCS_DIR/index.html"
-else
-    python -m pylode "$ONTOLOGY_FILE" -o "$DOCS_DIR/index.html"
-fi
+"$PYTHON_BIN" -m pylode "$TEMP_ONTOLOGY" -o "$DOCS_DIR/index.html"
 
 # Copy ontology files to docs directory for download
 echo "📄 Copying ontology source files..."
